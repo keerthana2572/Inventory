@@ -9,6 +9,10 @@ import java.util.List;
 @Component("ruleBased")
 public class RuleBasedPricingStrategy implements CommerceStrategy {
     
+    // Threshold for considering demand velocity as "high"
+    // This should ideally be configurable or calculated based on category averages
+    private static final int HIGH_DEMAND_VELOCITY_THRESHOLD = 10;
+    
     @Override
     public CommerceRecommendation generateRecommendations(Product product, TriggerReason triggerReason) {
         // Generate pricing recommendation
@@ -51,7 +55,7 @@ public class RuleBasedPricingStrategy implements CommerceStrategy {
         
         return new ReorderRecommendation(
             recommendedQuantity,
-            7, // Default lead time of 7 days
+            null, // Lead time is optional
             1.0, // High confidence for rule-based strategy
             generateReorderReasoning(product, recommendedQuantity, triggerReason)
         );
@@ -59,8 +63,9 @@ public class RuleBasedPricingStrategy implements CommerceStrategy {
     
     private boolean isHighDemandVelocity(Product product) {
         // This is a simplified implementation
-        // In a real implementation, we would compare against category averages
-        return product.getDemandVelocity() > 10;
+        // In a real implementation, we would compare against actual category averages
+        // For now, we use a fixed threshold
+        return product.getDemandVelocity() > HIGH_DEMAND_VELOCITY_THRESHOLD;
     }
     
     private String generatePricingReasoning(Product product, PriceChangeDirection direction, TriggerReason triggerReason) {
