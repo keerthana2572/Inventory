@@ -27,5 +27,22 @@ public interface ReorderSuggestionRepository extends JpaRepository<ReorderSugges
         @Param("triggerReason") TriggerReason triggerReason
     );
     
+    @Query("SELECT rs FROM ReorderSuggestion rs WHERE " +
+           "rs.productId = :productId AND " +
+           "rs.triggerReason = :triggerReason AND " +
+           "rs.status = :status")
+    List<ReorderSuggestion> findByProductIdAndTriggerReasonAndStatus(
+        @Param("productId") String productId,
+        @Param("triggerReason") TriggerReason triggerReason,
+        @Param("status") SuggestionStatus status
+    );
+    
+    // Add the missing method that's used in ProductService
+    Optional<ReorderSuggestion> findFirstByProductIdAndTriggerReasonAndStatus(
+        String productId, 
+        TriggerReason triggerReason, 
+        SuggestionStatus status
+    );
+    
     List<ReorderSuggestion> findByProductIdAndStatus(String productId, SuggestionStatus status);
 }

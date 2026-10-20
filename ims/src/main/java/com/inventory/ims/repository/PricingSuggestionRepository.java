@@ -27,5 +27,22 @@ public interface PricingSuggestionRepository extends JpaRepository<PricingSugges
         @Param("triggerReason") TriggerReason triggerReason
     );
     
+    @Query("SELECT ps FROM PricingSuggestion ps WHERE " +
+           "ps.productId = :productId AND " +
+           "ps.triggerReason = :triggerReason AND " +
+           "ps.status = :status")
+    List<PricingSuggestion> findByProductIdAndTriggerReasonAndStatus(
+        @Param("productId") String productId,
+        @Param("triggerReason") TriggerReason triggerReason,
+        @Param("status") SuggestionStatus status
+    );
+    
+    // Add the missing method that's used in ProductService
+    Optional<PricingSuggestion> findFirstByProductIdAndTriggerReasonAndStatus(
+        String productId, 
+        TriggerReason triggerReason, 
+        SuggestionStatus status
+    );
+    
     List<PricingSuggestion> findByProductIdAndStatus(String productId, SuggestionStatus status);
 }

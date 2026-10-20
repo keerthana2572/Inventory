@@ -23,4 +23,24 @@ public class StrategyResolver {
         String strategyName = configService.getActiveReorderStrategy();
         return strategyRegistry.getReorderStrategy(strategyName);
     }
+    
+    public CommerceStrategy getActiveStrategy() {
+        String strategyName = configService.getActivePricingStrategy(); // Using pricing strategy name for both
+        return strategyRegistry.getPricingStrategy(strategyName);
+    }
+    
+    public CommerceStrategy getRuleBasedStrategy() {
+        return strategyRegistry.getPricingStrategy("ruleBased");
+    public CommerceStrategy getRuleBasedStrategy() {
+        return strategyRegistry.getPricingStrategy("ruleBased");
+    }
+    
+    public CommerceStrategy getRuleBasedPricingStrategy() {
+        return strategyRegistry.getPricingStrategy("ruleBased");
+    }
+    
+    public CommerceStrategy getRuleBasedReorderStrategy() {
+        return strategyRegistry.getReorderStrategy("ruleBased");
+    }
+    }
 }
